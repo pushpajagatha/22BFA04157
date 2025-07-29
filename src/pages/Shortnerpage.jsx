@@ -1,38 +1,40 @@
 import { useState } from "react";
-//import { Log } from "../utils/logger";
+// import { Log } from "../utils/logger"; // Make sure to import Log if you use it
 
 export default function ShortenerPage() {
   const [url, setUrl] = useState("");
-  // Removed validity and shortcode state
   const [shortenedUrls, setShortenedUrls] = useState([]);
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     if (!url || !url.startsWith("http")) {
       setError("Please enter a valid URL");
-      Log("ShortenerPage", "error", "Validation", "Invalid URL entered");
+      // Log("ShortenerPage", "error", "Validation", "Invalid URL entered"); // Uncomment if Log is defined
       return;
     }
 
     const payload = {
       url,
-      // Removed shortcode from payload
     };
 
     try {
-      const res = await fetch("https://your-api-endpoint.com/shorten", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
+      // Example using shrtco.de public API for demonstration
+      const res = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(url)}`);
       const data = await res.json();
-      setShortenedUrls((prev) => [...prev, data]);
-      setError("");
-      Log("ShortenerPage", "info", "URLShortener", "Shortened URL successfully");
+      if (data.ok) {
+        setShortenedUrls((prev) => [
+          ...prev,
+          { original: url, short: data.result.full_short_link }
+        ]);
+        setError("");
+        // Log("ShortenerPage", "info", "URLShortener", "Shortened URL successfully"); // Uncomment if Log is defined
+      } else {
+        setError("Failed to shorten URL");
+        // Log("ShortenerPage", "error", "URLShortener", "Shorten failed"); // Uncomment if Log is defined
+      }
     } catch (e) {
       setError("Failed to shorten URL");
-      Log("ShortenerPage", "error", "URLShortener", "Shorten failed");
+      // Log("ShortenerPage", "error", "URLShortener", "Shorten failed"); // Uncomment if Log is defined
     }
   };
 
@@ -40,7 +42,6 @@ export default function ShortenerPage() {
     <div className="container">
       <h2>URL Shortener</h2>
       <input type="text" placeholder="Enter long URL" value={url} onChange={(e) => setUrl(e.target.value)} />
-      {/* Removed validity and custom shortcode input */}
       <button onClick={handleSubmit}>Shorten</button>
       {error && <div className="error">{error}</div>}
 
@@ -48,9 +49,8 @@ export default function ShortenerPage() {
         <div key={index} className="result">
           <p><strong>Original:</strong> {item.original}</p>
           <p><strong>Short:</strong> {item.short}</p>
-          {/* Optionally remove or update the "Expires in" line if not needed */}
         </div>
       ))}
     </div>
-    );
+  );
 }

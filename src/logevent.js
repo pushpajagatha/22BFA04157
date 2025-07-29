@@ -1,9 +1,9 @@
 export async function logEvent({ stack, level, pkg, message, token }) {
-  await fetch("http://20.244.56.144/evaluation-service/logs", {
+  await fetch("http://20.244.56.144/evaluation-service/logs"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": Bearer ${token}
+      "Authorization": `Bearer ${token}` // Fixed template literal syntax
     },
     body: JSON.stringify({
       stack,
@@ -11,5 +11,5 @@ export async function logEvent({ stack, level, pkg, message, token }) {
       package: pkg,
       message
     })
-  });
-}
+
+}}

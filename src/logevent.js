@@ -3,7 +3,7 @@ export async function logEvent({ stack, level, pkg, message, token }) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}` // Fixed template literal syntax
+      "Authorization": `Bearer ${token}` // 
     },
     body: JSON.stringify({
       stack,

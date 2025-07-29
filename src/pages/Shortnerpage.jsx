@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { Log } from "../utils/logger"; // Make sure to import Log if you use it
+
 
 export default function ShortenerPage() {
   const [url, setUrl] = useState("");
@@ -9,7 +9,7 @@ export default function ShortenerPage() {
   const handleSubmit = async () => {
     if (!url || !url.startsWith("http")) {
       setError("Please enter a valid URL");
-      // Log("ShortenerPage", "error", "Validation", "Invalid URL entered"); // Uncomment if Log is defined
+      
       return;
     }
 

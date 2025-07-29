@@ -18,7 +18,7 @@ export default function ShortenerPage() {
     };
 
     try {
-      // Example using shrtco.de public API for demonstration
+     // public API for demonstration
       const res = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(url)}`);
       const data = await res.json();
       if (data.ok) {
@@ -27,14 +27,14 @@ export default function ShortenerPage() {
           { original: url, short: data.result.full_short_link }
         ]);
         setError("");
-        // Log("ShortenerPage", "info", "URLShortener", "Shortened URL successfully"); // Uncomment if Log is defined
+       
       } else {
         setError("Failed to shorten URL");
-        // Log("ShortenerPage", "error", "URLShortener", "Shorten failed"); // Uncomment if Log is defined
+
       }
     } catch (e) {
       setError("Failed to shorten URL");
-      // Log("ShortenerPage", "error", "URLShortener", "Shorten failed"); // Uncomment if Log is defined
+    
     }
   };
 
@@ -42,6 +42,7 @@ export default function ShortenerPage() {
     <div className="container">
       <h2>URL Shortener</h2>
       <input type="text" placeholder="Enter long URL" value={url} onChange={(e) => setUrl(e.target.value)} />
+      <input type="text" placeholder="Shortened URL will appear here" value={shortenedUrls.map(item => item.short).join(", ")} readOnly />
       <button onClick={handleSubmit}>Shorten</button>
       {error && <div className="error">{error}</div>}
 

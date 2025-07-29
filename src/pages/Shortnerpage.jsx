@@ -3,8 +3,7 @@ import { useState } from "react";
 
 export default function ShortenerPage() {
   const [url, setUrl] = useState("");
-  const [validity, setValidity] = useState("");
-  const [shortcode, setShortcode] = useState("");
+  // Removed validity and shortcode state
   const [shortenedUrls, setShortenedUrls] = useState([]);
   const [error, setError] = useState("");
 
@@ -17,8 +16,7 @@ export default function ShortenerPage() {
 
     const payload = {
       url,
-      validity: validity ? parseInt(validity) : 30,
-      shortcode: shortcode || undefined,
+      // Removed shortcode from payload
     };
 
     try {
@@ -42,8 +40,7 @@ export default function ShortenerPage() {
     <div className="container">
       <h2>URL Shortener</h2>
       <input type="text" placeholder="Enter long URL" value={url} onChange={(e) => setUrl(e.target.value)} />
-      <input type="number" placeholder="Validity (minutes)" value={validity} onChange={(e) => setValidity(e.target.value)} />
-      <input type="text" placeholder="Custom shortcode (optional)" value={shortcode} onChange={(e) => setShortcode(e.target.value)} />
+      {/* Removed validity and custom shortcode input */}
       <button onClick={handleSubmit}>Shorten</button>
       {error && <div className="error">{error}</div>}
 
@@ -51,9 +48,9 @@ export default function ShortenerPage() {
         <div key={index} className="result">
           <p><strong>Original:</strong> {item.original}</p>
           <p><strong>Short:</strong> {item.short}</p>
-          <p><strong>Expires in:</strong> {item.validity} mins</p>
+          {/* Optionally remove or update the "Expires in" line if not needed */}
         </div>
       ))}
     </div>
-  );
+    );
 }
